@@ -1,13 +1,16 @@
 // src/components/Sidebar.js
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Drawer,
+  IconButton,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  IconButton,
   Toolbar,
+  Divider,
+  Tooltip,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
@@ -16,49 +19,108 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const drawerWidth = 240;
-const collapsedDrawerWidth = 72;
 
-const Sidebar = ({ isOpen, toggleDrawer }) => {
-  const menuItems = [
-    { text: "Library", icon: <LibraryMusicIcon /> },
-    { text: "Playlists", icon: <PlaylistPlayIcon /> },
-    { text: "Settings", icon: <SettingsIcon /> },
-    { text: "Account", icon: <AccountCircleIcon /> },
-  ];
+const Sidebar = () => {
+  const [open, setOpen] = useState(true);
+
+  const handleDrawerToggle = () => {
+    setOpen(!open);
+  };
 
   return (
-    <Drawer
-      variant="permanent"
-      sx={{
-        width: isOpen ? drawerWidth : collapsedDrawerWidth,
-        flexShrink: 0,
-        "& .MuiDrawer-paper": {
-          width: isOpen ? drawerWidth : collapsedDrawerWidth,
-          boxSizing: "border-box",
-          transition: "width 0.3s",
-        },
-      }}
-    >
-      <Toolbar
+    <>
+      <Drawer
         sx={{
-          display: "flex",
-          justifyContent: "flex-start",
-          paddingLeft: "10px !important",
+          width: open ? drawerWidth : 56,
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
+            width: open ? drawerWidth : 56,
+            boxSizing: "border-box",
+            overflowX: "hidden", // Ensure the drawer doesn't overflow when collapsed
+          },
         }}
+        variant="permanent"
+        anchor="left"
+        open={open}
       >
-        <IconButton onClick={toggleDrawer}>
-          <MenuIcon />
-        </IconButton>
-      </Toolbar>
-      <List>
-        {menuItems.map((item, index) => (
-          <ListItem button key={index} sx={{ minHeight: 48 }}>
-            <ListItemIcon>{item.icon}</ListItemIcon>
-            {isOpen && <ListItemText primary={item.text} />}
-          </ListItem>
-        ))}
-      </List>
-    </Drawer>
+        <Toolbar sx={{ paddingLeft: "6px !important" }}>
+          <IconButton onClick={handleDrawerToggle}>
+            <MenuIcon />
+          </IconButton>
+        </Toolbar>
+        <Divider />
+        <List>
+          <Tooltip
+            title="Library"
+            placement="right"
+            disableHoverListener={open}
+          >
+            <ListItem
+              button
+              sx={{ minHeight: 50 }}
+              component={Link}
+              to="/library"
+            >
+              <ListItemIcon>
+                <LibraryMusicIcon />
+              </ListItemIcon>
+              {open && <ListItemText primary="Library" />}
+            </ListItem>
+          </Tooltip>
+          <Tooltip
+            title="Playlists"
+            placement="right"
+            disableHoverListener={open}
+          >
+            <ListItem
+              button
+              sx={{ minHeight: 50 }}
+              component={Link}
+              to="/playlists"
+            >
+              <ListItemIcon>
+                <PlaylistPlayIcon />
+              </ListItemIcon>
+              {open && <ListItemText primary="Playlists" />}
+            </ListItem>
+          </Tooltip>
+          <Tooltip
+            title="Settings"
+            placement="right"
+            disableHoverListener={open}
+          >
+            <ListItem
+              button
+              sx={{ minHeight: 50 }}
+              component={Link}
+              to="/settings"
+            >
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              {open && <ListItemText primary="Settings" />}
+            </ListItem>
+          </Tooltip>
+          <Tooltip
+            title="Account"
+            placement="right"
+            disableHoverListener={open}
+          >
+            <ListItem
+              button
+              sx={{ minHeight: 50 }}
+              component={Link}
+              to="/account"
+            >
+              <ListItemIcon>
+                <AccountCircleIcon />
+              </ListItemIcon>
+              {open && <ListItemText primary="Account" />}
+            </ListItem>
+          </Tooltip>
+        </List>
+      </Drawer>
+    </>
   );
 };
 

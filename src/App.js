@@ -1,65 +1,33 @@
 // src/App.js
-import React, { useState } from "react";
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Box, CssBaseline } from "@mui/material";
 import Sidebar from "./components/Sidebar";
+import Library from "./pages/Library";
+import Playlists from "./pages/Playlists";
+import Settings from "./pages/Settings";
+import Account from "./pages/Account";
 import BottomPlayer from "./components/BottomPlayer";
-import ImportModal from "./components/ImportModal";
-import { CssBaseline, Container, Box, Button, Toolbar } from "@mui/material";
 
-const drawerWidth = 240;
-const collapsedDrawerWidth = 72;
-
-function App() {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isImportModalOpen, setImportModalOpen] = useState(false);
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
-
-  const handlePlayPause = () => {
-    setIsPlaying(!isPlaying);
-  };
-
-  const handleImportMusic = (url) => {
-    console.log("Importing music from URL:", url);
-    setImportModalOpen(false);
-  };
-
-  const toggleDrawer = () => {
-    setSidebarOpen(!isSidebarOpen);
-  };
-
+const App = () => {
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-      <CssBaseline />
-      <Sidebar isOpen={isSidebarOpen} toggleDrawer={toggleDrawer} />
-      <main
-        style={{
-          flexGrow: 1,
-          marginLeft: isSidebarOpen ? drawerWidth : collapsedDrawerWidth,
-          transition: "margin-left 0.3s",
-          paddingBottom: "64px", // Ensure space for bottom player
-        }}
-      >
-        <Toolbar />
-        <Container>
-          <Box display="flex" justifyContent="flex-end" m={2}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => setImportModalOpen(true)}
-            >
-              Import Music/Playlist
-            </Button>
-          </Box>
-          {/* Add your main content here */}
-        </Container>
-        <BottomPlayer isPlaying={isPlaying} onPlayPause={handlePlayPause} />
-      </main>
-      <ImportModal
-        open={isImportModalOpen}
-        onClose={() => setImportModalOpen(false)}
-        onImport={handleImportMusic}
-      />
-    </div>
+    <Router>
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <Sidebar />
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+          <Routes>
+            <Route path="/" element={<Library />} />
+            <Route path="/library" element={<Library />} />
+            <Route path="/playlists" element={<Playlists />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/account" element={<Account />} />
+          </Routes>
+        </Box>
+      </Box>
+      <BottomPlayer />
+    </Router>
   );
-}
+};
 
 export default App;
