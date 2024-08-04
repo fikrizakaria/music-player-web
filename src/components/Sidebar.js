@@ -39,14 +39,20 @@ const Sidebar = ({ isOpen, toggleDrawer }) => {
         },
       }}
     >
-      <Toolbar>
+      <Toolbar
+        sx={{
+          display: "flex",
+          justifyContent: "flex-start",
+          paddingLeft: "10px !important",
+        }}
+      >
         <IconButton onClick={toggleDrawer}>
           <MenuIcon />
         </IconButton>
       </Toolbar>
       <List>
         {menuItems.map((item, index) => (
-          <ListItem button key={index}>
+          <ListItem button key={index} sx={{ minHeight: 48 }}>
             <ListItemIcon>{item.icon}</ListItemIcon>
             {isOpen && <ListItemText primary={item.text} />}
           </ListItem>

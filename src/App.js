@@ -5,6 +5,9 @@ import BottomPlayer from "./components/BottomPlayer";
 import ImportModal from "./components/ImportModal";
 import { CssBaseline, Container, Box, Button, Toolbar } from "@mui/material";
 
+const drawerWidth = 240;
+const collapsedDrawerWidth = 72;
+
 function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isImportModalOpen, setImportModalOpen] = useState(false);
@@ -24,15 +27,15 @@ function App() {
   };
 
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       <CssBaseline />
       <Sidebar isOpen={isSidebarOpen} toggleDrawer={toggleDrawer} />
-      {/*isSidebarOpen ? drawerWidth : collapsedDrawerWidth*/}
       <main
         style={{
           flexGrow: 1,
-          marginLeft: 20,
+          marginLeft: isSidebarOpen ? drawerWidth : collapsedDrawerWidth,
           transition: "margin-left 0.3s",
+          paddingBottom: "64px", // Ensure space for bottom player
         }}
       >
         <Toolbar />

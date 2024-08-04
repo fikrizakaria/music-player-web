@@ -6,7 +6,17 @@ import PauseIcon from "@mui/icons-material/Pause";
 
 const BottomPlayer = ({ isPlaying, onPlayPause }) => {
   return (
-    <AppBar position="fixed" color="primary" style={{ top: "auto", bottom: 0 }}>
+    <AppBar
+      position="fixed"
+      color="primary"
+      style={{
+        top: "auto",
+        bottom: 0,
+        width: "100%",
+        zIndex: 1201,
+        transition: "width 0.3s",
+      }}
+    >
       <Toolbar>
         <Typography variant="h6" style={{ flexGrow: 1 }}>
           Now Playing: Song Title
